@@ -1,27 +1,62 @@
-let app = new Vue({
-    el: '#app',
-    data: {
-        brand: 'Vue Mastery',
-        product: 'Socks',
-        selectedVariant: 0,
-        details: ['80% cotton', '20% polyester', 'Gender-neutral'],
-        variants: [
-            {
-                variantId: 2234,
-                variantColor: 'green',
-                variantImage: './assets/vmSocks-green.jpg',
-                variantQuantity: 10
-            },
-            {
-                variantId: 2235,
-                variantColor: 'blue',
-                variantImage: './assets/vmSocks-blue.jpg',
-                variantQuantity: 0
+Vue.component('product', {
+    template: `
+        <div class="product">
+            <div class="product-image">
+                <img :src="image" :alt="product">
+            </div>
 
-            }
-        ],
-        cart: 0
+            <div class="product-info">
+                <h1>{{ title }}</h1>
+                <p v-if="inStock">In Stock</p>
+                <p v-else>Out of Stock</p>
+
+                <ul>
+                    <li v-for="detail in details">{{ detail }}</li>
+                </ul>
+
+                <div v-for="(variant, index) in variants" 
+                    :key="variant.variantId"
+                    class="color-box"
+                    :style="{ backgroundColor: variant.variantColor }"
+                    @mouseover="updateProduct(index)" >
+                </div>
+
+                <button @click="addToCart"
+                    :disabled="!inStock"
+                    :class="{ disabledButton: !inStock }"
+                    >Add to Cart</button>
+
+                <div class="cart">
+                    <p>Cart({{cart}})</p>
+                </div>
+            </div>
+        </div>
+    `,
+    data() {
+        return({
+            brand: 'Vue Mastery',
+            product: 'Socks',
+            selectedVariant: 0,
+            details: ['80% cotton', '20% polyester', 'Gender-neutral'],
+            variants: [
+                {
+                    variantId: 2234,
+                    variantColor: 'green',
+                    variantImage: './assets/vmSocks-green.jpg',
+                    variantQuantity: 10
+                },
+                {
+                    variantId: 2235,
+                    variantColor: 'blue',
+                    variantImage: './assets/vmSocks-blue.jpg',
+                    variantQuantity: 0
+    
+                }
+            ],
+            cart: 0
+        });
     },
+        
     methods: {
         addToCart() {
             this.cart += 1;
@@ -41,4 +76,9 @@ let app = new Vue({
             return this.variants[this.selectedVariant].variantQuantity;
         }
     }
+});
+
+let app = new Vue({
+    el: '#app',
+    
 });
