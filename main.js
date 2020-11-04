@@ -33,6 +33,9 @@ Vue.component('product', {
                     :class="{ disabledButton: !inStock }"
                     >Add to Cart</button>
             </div>
+
+            <product-review></product-review>
+
         </div>
     `,
     data() {
@@ -83,6 +86,17 @@ Vue.component('product', {
             }
             return '2.99'
         }
+    }
+});
+
+Vue.component('product-review', {
+    template: `
+        <input v-model="name">
+    `,
+    data() {
+        return {
+            name: null,
+        };
     }
 });
 
