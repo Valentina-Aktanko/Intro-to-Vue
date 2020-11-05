@@ -180,20 +180,23 @@ Vue.component('product-tabs', {
                 :key="index"
                 @click="selectedTab = tab">
                 {{ tab }}</span>
-       
-                <div>
-                    <h2>Reviews</h2>
-                    <p v-if="!reviews.length">There are not reviews yet.</p>
-                    <ul>
-                        <li v-for="review in reviews">
-                            <p>{{ review.name }}</p>
-                            <p>Rating: {{ review.rating }}</p>
-                            <p>{{ review.review }}</p>
-                            </li>
-                    </ul>
+
+                <div v-show="selectedTab === 'Reviews'">
+                    <div>
+                        <h2>Reviews</h2>
+                        <p v-if="!reviews.length">There are not reviews yet.</p>
+                        <ul>
+                            <li v-for="review in reviews">
+                                <p>{{ review.name }}</p>
+                                <p>Rating: {{ review.rating }}</p>
+                                <p>{{ review.review }}</p>
+                                </li>
+                        </ul>
+                    </div>
                 </div>
-        
-                <product-review @review-submitted="addReview"></product-review>
+
+                <product-review v-show="selectedTab === 'Make a Review'"
+                    @review-submitted="addReview"></product-review>
         </div>
 
     `,
